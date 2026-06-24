@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<head>
+    <!-- 💡 바로 여기에 이 줄을 넣어주시면 됩니다! -->
+    <meta name="robots" content="noindex, nofollow">
+    
+    <meta charset="UTF-8">
+    <title>Esports Tournament & Ranking</title>
+    <meta charset="UTF-8">
+    <title>IES Cologne Major 2026 Details</title>
+    <style>
+        body { background-color: #f4f6f9; color: #1e293b; font-family: sans-serif; padding: 40px 20px; margin: 0; }
+        .container { max-width: 1200px; margin: 0 auto; width: 100%; box-sizing: border-box; }
+        
+        .back-btn { 
+            display: inline-block; background-color: #ffffff; color: #334155; 
+            padding: 10px 20px; border-radius: 6px; border: 1px solid #cbd5e1; 
+            text-decoration: none; font-weight: bold; margin-bottom: 30px; font-size: 14px;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        .back-btn:hover { border-color: #94a3b8; background-color: #f8fafc; }
+
+        h1 { font-size: 24px; margin-bottom: 25px; color: #1d4ed8; border-bottom: 2px solid #cbd5e1; padding-bottom: 10px; }
+        h2 { font-size: 18px; margin-top: 40px; margin-bottom: 15px; color: #475569; }
+        
+        .stage-title {
+            font-size: 15px; font-weight: bold; padding: 6px 12px; border-radius: 4px; margin-bottom: 15px; display: inline-block;
+        }
+        .title-stage3 { background-color: rgba(234, 179, 8, 0.15); color: #b45309; border: 1px solid rgba(234, 179, 8, 0.3); }
+        .title-stage2 { background-color: rgba(59, 130, 246, 0.15); color: #1d4ed8; border: 1px solid rgba(59, 130, 246, 0.3); }
+        .title-stage1 { background-color: rgba(100, 116, 139, 0.15); color: #475569; border: 1px solid rgba(100, 116, 139, 0.3); }
+
+        /* 참가 팀 그리드 */
+        .teams-grid { 
+            display: grid; 
+            grid-template-columns: repeat(4, 1fr); 
+            gap: 15px; 
+            margin-bottom: 35px;
+        }
+
+        .team-card {
+            background: #ffffff; border: 1px solid #cbd5e1; border-radius: 4px; overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05); text-align: center;
+        }
+
+        .team-card-title {
+            background: #f1f5f9; color: #1e293b; font-weight: bold; font-size: 13px; padding: 6px;
+            border-bottom: 1px solid #cbd5e1; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+        }
+        .team-card-title span { color: #64748b; font-size: 11px; margin-right: 4px; font-family: monospace; }
+        
+        /* 로고 이미지 박스 */
+        .team-logo-box {
+            height: 90px; display: flex; align-items: center; justify-content: center; background: #ffffff; padding: 8px;
+        }
+        .team-logo-box img {
+            max-width: 100%;
+            max-height: 100%;
+            object-fit: contain;
+        }
+
+        /* 상금 및 순위 테이블 */
+        .prize-table { width: 100%; max-width: 600px; border-collapse: collapse; background: #ffffff; border-radius: 8px; overflow: hidden; margin-bottom: 30px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); border: 1px solid #cbd5e1; }
+        .prize-table th, .prize-table td { padding: 12px 15px; text-align: left; border-bottom: 1px solid #e2e8f0; }
+        .prize-table th { background: #f1f5f9; color: #475569; font-size: 14px; border-bottom: 2px solid #cbd5e1; }
+        .place-cell { font-weight: bold; display: flex; align-items: center; gap: 8px; }
+        .medal { width: 20px; height: 20px; border-radius: 50%; display: inline-block; text-align: center; font-size: 12px; line-height: 20px; color: #fff; font-weight: bold; }
+        .gold { background: #eab308; } .silver { background: #94a3b8; } .bronze { background: #b45309; }
+        .prize-amount { font-family: monospace; font-weight: 600; color: #0f172a; }
+        .participant { color: #334155; }
+
+        /* 대진표 구조 */
+        .bracket-wrapper { width: 100%; overflow-x: auto; background: #ffffff; padding: 30px; border-radius: 8px; border: 1px solid #cbd5e1; box-sizing: border-box; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        .bracket-container { display: flex; gap: 40px; min-width: 900px; height: 460px; justify-content: space-between; }
+        .round { display: flex; flex-direction: column; justify-content: space-between; width: 260px; height: 100%; }
+        .round-title { background: #f1f5f9; color: #334155; text-align: center; padding: 10px 0; font-weight: bold; font-size: 13px; border-radius: 4px; border: 1px solid #cbd5e1; margin-bottom: 10px; }
+        .match-list { display: flex; flex-direction: column; justify-content: space-around; flex-grow: 1; }
+        .match { display: flex; flex-direction: column; background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+        .slot { display: flex; justify-content: space-between; align-items: center; padding: 10px 12px; border-bottom: 1px solid #e2e8f0; font-size: 13px; height: 20px; background-color: #ffffff; }
+        .slot:last-child { border-bottom: none; }
+        .team-name { font-weight: 500; color: #334155; }
+        .score { font-family: monospace; font-weight: bold; background: #f1f5f9; padding: 2px 8px; border-radius: 4px; color: #475569; min-width: 14px; text-align: center; border: 1px solid #e2e8f0; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <a href="index.html" class="back-btn">⬅️ 메인 화면으로 돌아가기</a>
+        
+        <h1>IES Cologne Major 2026 Overview</h1>
+
+        <h2>👥 Participants</h2>
+
+        <!-- Stage 3 Invites -->
+        <div class="stage-title title-stage3">Stage 3 Invites</div>
+        <div class="teams-grid">
+            <div class="team-card"><div class="team-card-title"><span>#1</span>GEN</div><div class="team-logo-box"><img src="32위 팀 로고/GEN.png" alt="GEN"></div></div>
+            <div class="team-card"><div class="team-card-title"><span>#2</span>FLC</div><div class="team-logo-box"><img src="32위 팀 로고/FLC.png" alt="FLC"></div></div>
+            <div class="team-card"><div class="team-card-title"><span>#3</span>SPR</div><div class="team-logo-box"><img src="32위 팀 로고/SPR.png" alt="SPR"></div></div>
+            <div class="team-card"><div class="team-card-title"><span>#4</span>DRX</div><div class="team-logo-box"><img src="32위 팀 로고/DRX.png" alt="DRX"></div></div>
+            <div class="team-card"><div class="team-card-title"><span>#5</span>VIT</div><div class="team-logo-box"><img src="32위 팀 로고/VIT.png" alt="VIT"></div></div>
+            <div class="team-card"><div class="team-card-title"><span>#6</span>NAVI</div><div class="team-logo-box"><img src="32위 팀 로고/NAVI.png" alt="NAVI"></div></div>
+            <div class="team-card"><div class="team-card-title"><span>#7</span>SEN</div><div class="team-logo-box"><img src="32위 팀 로고/SEN.png" alt="SEN"></div></div>
+            <div class="team-card"><div class="team-card-title"><span>#8</span>PRX</div><div class="team-logo-box"><img src="32위 팀 로고/PRX.png" alt="PRX"></div></div>
+        </div>
+
+        <!-- Stage 2 Invites -->
+        <div class="stage-title title-stage2">Stage 2 Invites</div>
+        <div class="teams-grid">
+            <div class="team-card"><div class="team-card-title"><span>#9</span>LOUD</div><div class="team-logo-box"><img src="32위 팀 로고/LOUD.png" alt="LOUD"></div></div>
+            <div class="team-card"><div class="team-card-title"><span>#10</span>G2</div><div class="team-logo-box"><img src="32위 팀 로고/G2.png" alt="G2"></div></div>
+            <div class="team-card"><div class="team-card-title"><span>#11</span>RRQ</div><div class="team-logo-box"><img src="32위 팀 로고/RRQ.png" alt="RRQ"></div></div>
+            <div class="team-card"><div class="team-card-title"><span>#12</span>EDG</div><div class="team-logo-box"><img src="32위 팀 로고/EDG.png" alt="EDG"></div></div>
+            <div class="team-card"><div class="team-card-title"><span>#13</span>BOOM</div><div class="team-logo-box"><img src="32위 팀 로고/BOOM.png" alt="BOOM"></div></div>
+            <div class="team-card"><div class="team-card-title"><span>#14</span>FNC</div><div class="team-logo-box"><img src="32위 팀 로고/FNC.png" alt="FNC"></div></div>
+            <div class="team-card"><div class="team-card-title"><span>#15</span>LEGACY</div><div class="team-logo-box"><img src="32위 팀 로고/LEGACY.png" alt="LEGACY"></div></div>
+            <div class="team-card"><div class="team-card-title"><span>#16</span>LEV</div><div class="team-logo-box"><img src="32위 팀 로고/LEV.png" alt="LEV"></div></div>
+        </div>
+
+        <!-- Stage 1 Invites -->
+        <div class="stage-title title-stage1">Stage 1 Invites</div>
+        <div class="teams-grid">
+            <div class="team-card"><div class="team-card-title"><span>#17</span>PVIS</div><div class="team-logo-box"><img src="32위 팀 로고/PVIS.png" alt="PVIS"></div></div>
+            <div class="team-card"><div class="team-card-title"><span>#18</span>NRG</div><div class="team-logo-box"><img src="32위 팀 로고/NRG.png" alt="NRG"></div></div>
+            <div class="team-card"><div class="team-card-title"><span>#19</span>MOUZ</div><div class="team-logo-box"><img src="32위 팀 로고/MOUZ.png" alt="MOUZ"></div></div>
+            <div class="team-card"><div class="team-card-title"><span>#20</span>NS</div><div class="team-logo-box"><img src="32위 팀 로고/NS.png" alt="NS"></div></div>
+            <div class="team-card"><div class="team-card-title"><span>#21</span>TEAMLiquid</div><div class="team-logo-box"><img src="32위 팀 로고/TEAMLiquid.png" alt="TEAMLiquid"></div></div>
+            <div class="team-card"><div class="team-card-title"><span>#22</span>MG</div><div class="team-logo-box"><img src="32위 팀 로고/MG.png" alt="MG"></div></div>
+            <div class="team-card"><div class="team-card-title"><span>#23</span>AURORA</div><div class="team-logo-box"><img src="32위 팀 로고/AURORA.png" alt="AURORA"></div></div>
+            <div class="team-card"><div class="team-card-title"><span>#24</span>MIBR</div><div class="team-logo-box"><img src="32위 팀 로고/MIBR.png" alt="MIBR"></div></div>
+            <div class="team-card"><div class="team-card-title"><span>#25</span>ASTRALIS</div><div class="team-logo-box"><img src="32위 팀 로고/ASTRALIS.png" alt="ASTRALIS"></div></div>
+            <div class="team-card"><div class="team-card-title"><span>#26</span>FAZE</div><div class="team-logo-box"><img src="32위 팀 로고/FAZE.png" alt="FAZE"></div></div>
+            <div class="team-card"><div class="team-card-title"><span>#27</span>FURIA</div><div class="team-logo-box"><img src="32위 팀 로고/FURIA.png" alt="FURIA"></div></div>
+            <div class="team-card"><div class="team-card-title"><span>#28</span>BB</div><div class="team-logo-box"><img src="32위 팀 로고/BB.png" alt="BB"></div></div>
+            <div class="team-card"><div class="team-card-title"><span>#29</span>T1</div><div class="team-logo-box"><img src="32위 팀 로고/T1.png" alt="T1"></div></div>
+            <div class="team-card"><div class="team-card-title"><span>#30</span>FQ</div><div class="team-logo-box"><img src="32위 팀 로고/FQ.png" alt="FQ"></div></div>
+            <div class="team-card"><div class="team-card-title"><span>#31</span>PAIN</div><div class="team-logo-box"><img src="32위 팀 로고/PAIN.png" alt="PAIN"></div></div>
+            <div class="team-card"><div class="team-card-title"><span>#32</span>GL</div><div class="team-logo-box"><img src="32위 팀 로고/GL.png" alt="GL"></div></div>
+        </div>
+
+        <!-- 상금 및 순위 -->
+        <h2>💰 상금 및 순위 (Prize Pool)</h2>
+        <table class="prize-table">
+            <thead>
+                <tr><th style="width: 25%;">Place</th><th style="width: 35%;">$ USD</th><th style="width: 40%;">Participant</th></tr>
+            </thead>
+            <tbody>
+                <tr><td><div class="place-cell"><span class="medal gold">1</span> 1st</div></td><td class="prize-amount">$500,000</td><td class="participant">TBD</td></tr>
+                <tr><td><div class="place-cell"><span class="medal silver">2</span> 2nd</div></td><td class="prize-amount">$170,000</td><td class="participant">TBD</td></tr>
+                <tr><td><div class="place-cell"><span class="medal bronze">3</span> 3rd</div></td><td class="prize-amount">$100,000</td><td class="participant">TBD</td></tr>
+            </tbody>
+        </table>
+
+        <!-- 대진표 -->
+        <h2>🏆 플레이오프 대진표 (Bracket)</h2>
+        <div class="bracket-wrapper">
+            <div class="bracket-container">
+                <div class="round">
+                    <div class="round-title">Quarterfinals</div>
+                    <div class="match-list">
+                        <div class="match">
+                            <div class="slot"><span class="team-name">TBD</span><span class="score">-</span></div>
+                            <div class="slot"><span class="team-name">TBD</span><span class="score">-</span></div>
+                        </div>
+                        <div class="match">
+                            <div class="slot"><span class="team-name">TBD</span><span class="score">-</span></div>
+                            <div class="slot"><span class="team-name">TBD</span><span class="score">-</span></div>
+                        </div>
+                        <div class="match">
+                            <div class="slot"><span class="team-name">TBD</span><span class="score">-</span></div>
+                            <div class="slot"><span class="team-name">TBD</span><span class="score">-</span></div>
+                        </div>
+                        <div class="match">
+                            <div class="slot"><span class="team-name">TBD</span><span class="score">-</span></div>
+                            <div class="slot"><span class="team-name">TBD</span><span class="score">-</span></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="round">
+                    <div class="round-title">Semifinals</div>
+                    <div class="match-list">
+                        <div class="match">
+                            <div class="slot"><span class="team-name">TBD</span><span class="score">-</span></div>
+                            <div class="slot"><span class="team-name">TBD</span><span class="score">-</span></div>
+                        </div>
+                        <div class="match">
+                            <div class="slot"><span class="team-name">TBD</span><span class="score">-</span></div>
+                            <div class="slot"><span class="team-name">TBD</span><span class="score">-</span></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="round">
+                    <div class="round-title">Grand Final</div>
+                    <div class="match-list">
+                        <div class="match">
+                            <div class="slot"><span class="team-name">TBD</span><span class="score">-</span></div>
+                            <div class="slot"><span class="team-name">TBD</span><span class="score">-</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+</body>
+</html>

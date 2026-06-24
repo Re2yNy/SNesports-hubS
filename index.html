@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta name="robots" content="noindex, nofollow">
+    <meta charset="UTF-8">
+    <title>Esports Tournament & Ranking</title>
+    <style>
+        body { background-color: #f4f6f9; color: #1e293b; font-family: sans-serif; padding: 40px 20px; margin: 0; }
+        .container { max-width: 1100px; margin: 0 auto; width: 100%; box-sizing: border-box; }
+        h1 { margin-bottom: 25px; color: #0f172a; }
+
+        #main-tournaments, #main-ranking { display: none !important; }
+
+        /* 대메뉴 탭 스타일 */
+        .main-tabs { display: flex; gap: 5px; margin-bottom: 30px; border-bottom: 2px solid #cbd5e1; padding-bottom: 0; align-items: flex-end; }
+        .main-tabs label, .main-tabs .tab-link {
+            padding: 12px 24px; font-weight: bold; font-size: 16px; cursor: pointer;
+            color: #64748b; border-radius: 6px 6px 0 0; border: 1px solid transparent;
+            margin-bottom: -2px; transition: all 0.2s ease; text-decoration: none; display: inline-block;
+        }
+        .main-tabs label:hover, .main-tabs .tab-link:hover { color: #1e293b; background-color: #e2e8f0; }
+
+        /* 활성화된 탭 */
+        #main-tournaments:checked ~ .main-tabs label[for="main-tournaments"],
+        #main-ranking:checked ~ .main-tabs label[for="main-ranking"] {
+            color: #1d4ed8; background-color: #ffffff; border: 1px solid #cbd5e1; border-bottom-color: #ffffff;
+        }
+
+        .content-section { display: none; }
+        #main-tournaments:checked ~ #section-tournaments { display: block; }
+        #main-ranking:checked ~ #section-ranking { display: block; }
+
+        /* Tournaments 티어 필터 */
+        #tab-all, #tab-s, #tab-a { display: none !important; }
+        .filter-tabs { display: flex; gap: 10px; margin-top: 15px; margin-bottom: 25px; }
+        .filter-tabs label {
+            background-color: #ffffff; color: #334155; border: 1px solid #cbd5e1;
+            padding: 8px 16px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 14px;
+            transition: all 0.2s ease; box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        .filter-tabs label:hover { border-color: #94a3b8; background-color: #f8fafc; }
+        #tab-all:checked ~ .filter-tabs label[for="tab-all"],
+        #tab-s:checked ~ .filter-tabs label[for="tab-s"],
+        #tab-a:checked ~ .filter-tabs label[for="tab-a"] { background-color: #1e293b; color: #ffffff; border-color: #1e293b; }
+
+        .table-wrapper { width: 100%; overflow-x: auto; background: #ffffff; border-radius: 8px; border: 1px solid #cbd5e1; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        table { width: 100%; min-width: 1050px; border-collapse: collapse; }
+        th, td { padding: 15px; text-align: left; border-bottom: 1px solid #e2e8f0; }
+        th { background: #f1f5f9; color: #475569; font-weight: bold; border-bottom: 2px solid #cbd5e1; }
+        tr:last-child td { border-bottom: none; }
+        tr:hover td { background-color: #f8fafc; }
+
+        .tournament-link { font-weight: bold; color: #1d4ed8; text-decoration: underline; text-underline-offset: 4px; }
+        .tournament-link:hover { color: #2563eb; }
+        .prize-cell { white-space: nowrap; font-family: monospace; font-size: 13px; color: #334155; font-weight: 500; }
+        .team-cell { font-weight: 600; color: #475569; }
+
+        .badge { padding: 4px 8px; border-radius: 4px; font-weight: bold; font-size: 12px; display: inline-block; }
+        .s-tier { background: rgba(234, 179, 8, 0.15); color: #b45309; border: 1px solid rgba(234, 179, 8, 0.3); }
+        .a-tier { background: rgba(59, 130, 246, 0.15); color: #1d4ed8; border: 1px solid rgba(59, 130, 246, 0.3); }
+
+        #tab-s:checked ~ .table-wrapper table tbody tr.row-a-tier { display: none; }
+        #tab-a:checked ~ .table-wrapper table tbody tr.row-s-tier { display: none; }
+
+        /* RANKING 테이블 */
+        .liqui-table-wrapper { max-width: 550px; background: #f8fafc; border: 1px solid #cbd5e1; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        .liqui-table { width: 100%; min-width: unset; border-collapse: collapse; }
+        .liqui-table th, .liqui-table td { padding: 8px 12px; border: 1px solid #cbd5e1; font-size: 13px; vertical-align: middle; }
+        .liqui-table th { background: #eaedf2; color: #334155; font-weight: bold; text-align: center; }
+        .l-rank { font-weight: bold; text-align: center; width: 40px; background: #f1f5f9; color: #0f172a; }
+        .l-logo-cell { width: 45px; text-align: center; background: #ffffff; padding: 4px !important; }
+        .l-logo-cell img { width: 26px; height: 26px; object-fit: contain; display: block; margin: 0 auto; }
+        .l-team { font-weight: bold; color: #0f172a; background: #ffffff; padding-left: 15px !important; }
+        .l-points { text-align: center; width: 80px; background: #ffffff; font-family: monospace; font-weight: 500; color: #334155; }
+        .l-change { text-align: center; width: 70px; background: #ffffff; color: #64748b; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏆 SN Esports Hub</h1>
+
+        <input type="radio" id="main-tournaments" name="main-tab-filter" checked>
+        <input type="radio" id="main-ranking" name="main-tab-filter">
+
+        <div class="main-tabs">
+            <label for="main-tournaments">📅 Tournaments</label>
+            <label for="main-ranking">📊 RANKING</label>
+            <!-- 💡 새 파일로 연결되는 링크 탭으로 변경 -->
+            <a href="rosters.html" class="tab-link">👥 Rosters</a>
+        </div>
+
+        <!-- [구역 1] Tournaments 탭 -->
+        <div id="section-tournaments" class="content-section">
+            <input type="radio" id="tab-all" name="tier-filter" checked>
+            <input type="radio" id="tab-s" name="tier-filter">
+            <input type="radio" id="tab-a" name="tier-filter">
+
+            <div class="filter-tabs">
+                <label for="tab-all">all</label>
+                <label for="tab-s">S-Tier</label>
+                <label for="tab-a">A-Tier</label>
+            </div>
+
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th style="width: 8%;">티어</th>
+                            <th style="width: 27%;">대회명</th>
+                            <th style="width: 18%;">일정</th>
+                            <th style="width: 27%;">총상금</th>
+                            <th style="width: 10%;">우승</th>
+                            <th style="width: 10%;">준우승</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="row-a-tier">
+                            <td><span class="badge a-tier">A-Tier</span></td>
+                            <td><a href="asian.html" class="tournament-link">SN Asian championship</a></td>
+                            <td style="color: #475569;">2026-06-24 ~ 06-28</td>
+                            <td class="prize-cell">1st / $150,000 &nbsp;2nd / $70,000 &nbsp;3rd / $60,000</td>
+                            <td class="team-cell">-</td>
+                            <td class="team-cell">-</td>
+                        </tr>
+                        <tr class="row-s-tier">
+                            <td><span class="badge s-tier">S-Tier</span></td>
+                            <td><a href="cologne.html" class="tournament-link">IES Cologne Major 2026</a></td>
+                            <td style="color: #475569;">2026-06-29 ~ 07-12</td>
+                            <td class="prize-cell">1st / $500,000 &nbsp;2nd / $170,000 &nbsp;3rd / $100,000</td>
+                            <td class="team-cell">-</td>
+                            <td class="team-cell">-</td>
+                        </tr>
+                        <tr class="row-s-tier">
+                            <td><span class="badge s-tier">S-Tier</span></td>
+                            <td><a href="ewc.html" class="tournament-link">Esports World Cup SN 2026</a></td>
+                            <td style="color: #475569;">2026-07-15 ~ 07-26</td>
+                            <td class="prize-cell">1st / $600,000 &nbsp;2nd / $340,000 &nbsp;3rd / $190,000</td>
+                            <td class="team-cell">-</td>
+                            <td class="team-cell">-</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- [구역 2] RANKING 탭 -->
+        <div id="section-ranking" class="content-section">
+            <div class="table-wrapper liqui-table-wrapper">
+                <table class="liqui-table">
+                    <thead>
+                        <tr>
+                            <th class="l-rank">#</th>
+                            <th colspan="2">Team</th>
+                            <th class="l-points">Points</th>
+                            <th class="l-change">Change</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td class="l-rank">1</td><td class="l-logo-cell"><img src="32위 팀 로고/GEN.png" alt="GEN"></td><td class="l-team">GEN</td><td class="l-points">1250</td><td class="l-change">—</td></tr>
+                        <tr><td class="l-rank">2</td><td class="l-logo-cell"><img src="32위 팀 로고/FLC.png" alt="FLC"></td><td class="l-team">FLC</td><td class="l-points">1120</td><td class="l-change">—</td></tr>
+                        <tr><td class="l-rank">3</td><td class="l-logo-cell"><img src="32위 팀 로고/SPR.png" alt="SPR"></td><td class="l-team">SPR</td><td class="l-points">980</td><td class="l-change">—</td></tr>
+                        <tr><td class="l-rank">4</td><td class="l-logo-cell"><img src="32위 팀 로고/DRX.png" alt="DRX"></td><td class="l-team">DRX</td><td class="l-points">910</td><td class="l-change">—</td></tr>
+                        <tr><td class="l-rank">5</td><td class="l-logo-cell"><img src="32위 팀 로고/VIT.png" alt="VIT"></td><td class="l-team">VIT</td><td class="l-points">850</td><td class="l-change">—</td></tr>
+                        <tr><td class="l-rank">6</td><td class="l-logo-cell"><img src="32위 팀 로고/NAVI.png" alt="NAVI"></td><td class="l-team">NAVI</td><td class="l-points">790</td><td class="l-change">—</td></tr>
+                        <tr><td class="l-rank">7</td><td class="l-logo-cell"><img src="32위 팀 로고/SEN.png" alt="SEN"></td><td class="l-team">SEN</td><td class="l-points">740</td><td class="l-change">—</td></tr>
+                        <tr><td class="l-rank">8</td><td class="l-logo-cell"><img src="32위 팀 로고/PRX.png" alt="PRX"></td><td class="l-team">PRX</td><td class="l-points">710</td><td class="l-change">—</td></tr>
+                        <tr><td class="l-rank">9</td><td class="l-logo-cell"><img src="32위 팀 로고/LOUD.png" alt="LOUD"></td><td class="l-team">LOUD</td><td class="l-points">650</td><td class="l-change">—</td></tr>
+                        <tr><td class="l-rank">10</td><td class="l-logo-cell"><img src="32위 팀 로고/G2.png" alt="G2"></td><td class="l-team">G2</td><td class="l-points">610</td><td class="l-change">—</td></tr>
+                        <tr><td class="l-rank">11</td><td class="l-logo-cell"><img src="32위 팀 로고/RRQ.png" alt="RRQ"></td><td class="l-team">RRQ</td><td class="l-points">580</td><td class="l-change">—</td></tr>
+                        <tr><td class="l-rank">12</td><td class="l-logo-cell"><img src="32위 팀 로고/EDG.png" alt="EDG"></td><td class="l-team">EDG</td><td class="l-points">550</td><td class="l-change">—</td></tr>
+                        <tr><td class="l-rank">13</td><td class="l-logo-cell"><img src="32위 팀 로고/BOOM.png" alt="BOOM"></td><td class="l-team">BOOM</td><td class="l-points">490</td><td class="l-change">—</td></tr>
+                        <tr><td class="l-rank">14</td><td class="l-logo-cell"><img src="32위 팀 로고/FNC.png" alt="FNC"></td><td class="l-team">FNC</td><td class="l-points">460</td><td class="l-change">—</td></tr>
+                        <tr><td class="l-rank">15</td><td class="l-logo-cell"><img src="32위 팀 로고/LEGACY.png" alt="LEGACY"></td><td class="l-team">LEGACY</td><td class="l-points">430</td><td class="l-change">—</td></tr>
+                        <tr><td class="l-rank">16</td><td class="l-logo-cell"><img src="32위 팀 로고/LEV.png" alt="LEV"></td><td class="l-team">LEV</td><td class="l-points">410</td><td class="l-change">—</td></tr>
+                        <tr><td class="l-rank">17</td><td class="l-logo-cell"><img src="32위 팀 로고/PVIS.png" alt="PVIS"></td><td class="l-team">PVIS</td><td class="l-points">380</td><td class="l-change">—</td></tr>
+                        <tr><td class="l-rank">18</td><td class="l-logo-cell"><img src="32위 팀 로고/NRG.png" alt="NRG"></td><td class="l-team">NRG</td><td class="l-points">360</td><td class="l-change">—</td></tr>
+                        <tr><td class="l-rank">19</td><td class="l-logo-cell"><img src="32위 팀 로고/MOUZ.png" alt="MOUZ"></td><td class="l-team">MOUZ</td><td class="l-points">340</td><td class="l-change">—</td></tr>
+                        <tr><td class="l-rank">20</td><td class="l-logo-cell"><img src="32위 팀 로고/NS.png" alt="NS"></td><td class="l-team">NS</td><td class="l-points">320</td><td class="l-change">—</td></tr>
+                        <tr><td class="l-rank">21</td><td class="l-logo-cell"><img src="32위 팀 로고/TEAMLiquid.png" alt="TEAMLiquid"></td><td class="l-team">TEAMLiquid</td><td class="l-points">290</td><td class="l-change">—</td></tr>
+                        <tr><td class="l-rank">22</td><td class="l-logo-cell"><img src="32위 팀 로고/MG.png" alt="MG"></td><td class="l-team">MG</td><td class="l-points">270</td><td class="l-change">—</td></tr>
+                        <tr><td class="l-rank">23</td><td class="l-logo-cell"><img src="32위 팀 로고/AURORA.png" alt="AURORA"></td><td class="l-team">AURORA</td><td class="l-points">250</td><td class="l-change">—</td></tr>
+                        <tr><td class="l-rank">24</td><td class="l-logo-cell"><img src="32위 팀 로고/MIBR.png" alt="MIBR"></td><td class="l-team">MIBR</td><td class="l-points">230</td><td class="l-change">—</td></tr>
+                        <tr><td class="l-rank">25</td><td class="l-logo-cell"><img src="32위 팀 로고/ASTRALIS.png" alt="ASTRALIS"></td><td class="l-team">ASTRALIS</td><td class="l-points">210</td><td class="l-change">—</td></tr>
+                        <tr><td class="l-rank">26</td><td class="l-logo-cell"><img src="32위 팀 로고/FAZE.png" alt="FAZE"></td><td class="l-team">FAZE</td><td class="l-points">190</td><td class="l-change">—</td></tr>
+                        <tr><td class="l-rank">27</td><td class="l-logo-cell"><img src="32위 팀 로고/FURIA.png" alt="FURIA"></td><td class="l-team">FURIA</td><td class="l-points">180</td><td class="l-change">—</td></tr>
+                        <tr><td class="l-rank">28</td><td class="l-logo-cell"><img src="32위 팀 로고/BB.png" alt="BB"></td><td class="l-team">BB</td><td class="l-points">160</td><td class="l-change">—</td></tr>
+                        <tr><td class="l-rank">29</td><td class="l-logo-cell"><img src="32위 팀 로고/T1.png" alt="T1"></td><td class="l-team">T1</td><td class="l-points">150</td><td class="l-change">—</td></tr>
+                        <tr><td class="l-rank">30</td><td class="l-logo-cell"><img src="32위 팀 로고/FQ.png" alt="FQ"></td><td class="l-team">FQ</td><td class="l-points">130</td><td class="l-change">—</td></tr>
+                        <tr><td class="l-rank">31</td><td class="l-logo-cell"><img src="32위 팀 로고/PAIN.png" alt="PAIN"></td><td class="l-team">PAIN</td><td class="l-points">110</td><td class="l-change">—</td></tr>
+                        <tr><td class="l-rank">32</td><td class="l-logo-cell"><img src="32위 팀 로고/GL.png" alt="GL"></td><td class="l-team">GL</td><td class="l-points">90</td><td class="l-change">—</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

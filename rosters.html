@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <!-- 검색 엔진 노출 차단 태그 탑재 -->
+    <meta name="robots" content="noindex, nofollow">
+    <meta charset="UTF-8">
+    <title>Team Rosters</title>
+    <style>
+        body { background-color: #f4f6f9; color: #1e293b; font-family: sans-serif; padding: 40px 20px; margin: 0; }
+        .container { max-width: 1100px; margin: 0 auto; width: 100%; box-sizing: border-box; }
+        h1 { margin-bottom: 25px; color: #0f172a; }
+
+        /* 대메뉴 탭 스타일 (index.html과 동일) */
+        .main-tabs { display: flex; gap: 5px; margin-bottom: 30px; border-bottom: 2px solid #cbd5e1; padding-bottom: 0; align-items: flex-end; }
+        .main-tabs .tab-link {
+            padding: 12px 24px; font-weight: bold; font-size: 16px; cursor: pointer;
+            color: #64748b; border-radius: 6px 6px 0 0; border: 1px solid transparent;
+            margin-bottom: -2px; transition: all 0.2s ease; text-decoration: none; display: inline-block;
+        }
+        .main-tabs .tab-link:hover { color: #1e293b; background-color: #e2e8f0; }
+
+        /* 현재 👥 Rosters 탭 활성화 효과 고정 */
+        .main-tabs .tab-link.active {
+            color: #1d4ed8; background-color: #ffffff; border: 1px solid #cbd5e1; border-bottom-color: #ffffff;
+        }
+
+        /* 로스터 관리 구역 */
+        .roster-team-list { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 25px; background: #ffffff; padding: 15px; border-radius: 8px; border: 1px solid #cbd5e1; }
+        .roster-team-list label {
+            background-color: #f1f5f9; color: #334155; border: 1px solid #cbd5e1;
+            padding: 6px 12px; border-radius: 4px; cursor: pointer; font-weight: bold; font-size: 13px;
+            transition: all 0.15s ease;
+        }
+        .roster-team-list label:hover { background-color: #e2e8f0; border-color: #94a3b8; }
+        
+        /* 로스터용 라디오 버튼 숨기기 */
+        .roster-select { display: none !important; }
+
+        /* 칩 활성화 스타일 규칙 */
+        #ros-gen:checked ~ .roster-team-list label[for="ros-gen"] { background: #1d4ed8; color: #fff; border-color: #1d4ed8; }
+        #ros-flc:checked ~ .roster-team-list label[for="ros-flc"] { background: #1d4ed8; color: #fff; border-color: #1d4ed8; }
+
+        /* 로스터 정보 박스 레이아웃 */
+        .team-roster-box { display: none; background: #ffffff; border: 1px solid #cbd5e1; border-radius: 8px; padding: 25px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); max-width: 550px; }
+        
+        #ros-gen:checked ~ #roster-box-gen { display: block; }
+        #ros-flc:checked ~ #roster-box-flc { display: block; }
+
+        .roster-title { font-size: 20px; font-weight: bold; color: #0f172a; margin-top: 0; margin-bottom: 15px; border-bottom: 2px solid #1d4ed8; padding-bottom: 5px; display: inline-block; }
+        
+        /* 리퀴피디아 감성 심플 로스터 테이블 */
+        .liqui-roster-table { width: 100%; border-collapse: collapse; margin-bottom: 15px; background: #ffffff; }
+        .liqui-roster-table th, .liqui-roster-table td { border: 1px solid #cbd5e1; padding: 10px 14px; font-size: 14px; vertical-align: middle; }
+        
+        /* 헤더 스타일 */
+        .liqui-roster-table th { background: #eaedf2; color: #475569; font-weight: bold; text-align: left; }
+        
+        /* ID 칼럼 */
+        .r-id-cell { font-weight: bold; color: #1d4ed8; width: 55%; background: #ffffff; }
+
+        /* 계약 만료일 칼럼 */
+        .r-contract-cell { color: #475569; width: 45%; font-family: monospace; background: #ffffff; }
+
+        /* 스태프 구분선 및 역할 텍스트 */
+        .r-staff-header { background: #f1f5f9; color: #475569; font-weight: bold; font-size: 13px; padding: 8px 14px !important; }
+        .r-staff-role-text { color: #64748b; font-size: 12px; font-weight: normal; margin-left: 6px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🏆 SN Esports Hub</h1>
+
+        <div class="main-tabs">
+            <a href="index.html" class="tab-link">📅 Tournaments</a>
+            <a href="index.html" class="tab-link">📊 RANKING</a>
+            <a href="rosters.html" class="tab-link active">👥 Rosters</a>
+        </div>
+
+        <!-- 팀 선택 필터 조작 영역 -->
+        <input type="radio" id="ros-gen" name="roster-team-filter" class="roster-select" checked>
+        <input type="radio" id="ros-flc" name="roster-team-filter" class="roster-select">
+
+        <div class="roster-team-list">
+            <label for="ros-gen">GEN</label>
+            <label for="ros-flc">FLC</label>
+        </div>
+
+        <!-- 1. GEN 팀 로스터 박스 (정밀한 계약 조건 입력 완료) -->
+        <div id="roster-box-gen" class="team-roster-box">
+            <div class="roster-title">GEN Active Roster</div>
+            <table class="liqui-roster-table">
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Contract End</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- 주전 선수 라인업 -->
+                    <tr>
+                        <td class="r-id-cell">T3XTURE</td>
+                        <td class="r-contract-cell">2028-01-15</td>
+                    </tr>
+                    <tr>
+                        <td class="r-id-cell">Ash</td>
+                        <td class="r-contract-cell">2029-01-15</td>
+                    </tr>
+                    <tr>
+                        <td class="r-id-cell">LAKIA</td>
+                        <td class="r-contract-cell">2028-01-15</td>
+                    </tr>
+                    <tr>
+                        <td class="r-id-cell">METEOR</td>
+                        <td class="r-contract-cell">2027-01-15</td>
+                    </tr>
+                    <tr>
+                        <td class="r-id-cell">ZynX</td>
+                        <td class="r-contract-cell">2027-01-15</td>
+                    </tr>
+
+                    <!-- 코칭스태프 영역 -->
+                    <tr>
+                        <td colspan="2" class="r-staff-header">Coaching Staff</td>
+                    </tr>
+                    <tr>
+                        <td class="r-id-cell">solo<span class="r-staff-role-text">(Head Coach)</span></td>
+                        <td class="r-contract-cell">2026-11-30</td>
+                    </tr>
+                    <tr>
+                        <td class="r-id-cell">HSK<span class="r-staff-role-text">(Coach)</span></td>
+                        <td class="r-contract-cell">2026-11-30</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- 2. 다음 팀 대기실 (FLC 박스) -->
+        <div id="roster-box-flc" class="team-roster-box">
+            <div class="roster-title">FLC Active Roster</div>
+            <div style="color: #64748b; font-style: italic; font-size: 14px;">선수 명단을 입력 대기 중입니다...</div>
+        </div>
+
+    </div>
+</body>
+</html>
