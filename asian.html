@@ -77,9 +77,9 @@
         .bronze { background: #b45309; }     
 
         .prize-amount { font-family: monospace; font-weight: 600; color: #0f172a; }
-        .participant { color: #334155; }
+        .participant { color: #334155; font-weight: 500; }
 
-        /* 대진표 구조 */
+        /* 대진표 구조 (3위 결정전 추가에 맞춰 최소 높이 소폭 조정) */
         .bracket-wrapper { 
             width: 100%; 
             overflow-x: auto; 
@@ -90,7 +90,7 @@
             box-sizing: border-box;
             box-shadow: 0 1px 3px rgba(0,0,0,0.05);
         }
-        .bracket-container { display: flex; gap: 40px; min-width: 900px; height: 460px; justify-content: space-between; }
+        .bracket-container { display: flex; gap: 40px; min-width: 900px; height: 500px; justify-content: space-between; }
         
         .round { display: flex; flex-direction: column; justify-content: space-between; width: 260px; height: 100%; }
         .round-title { 
@@ -100,11 +100,17 @@
 
         .match-list { display: flex; flex-direction: column; justify-content: space-around; flex-grow: 1; }
         .match { display: flex; flex-direction: column; background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; overflow: hidden; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
-        .slot { display: flex; justify-content: space-between; align-items: center; padding: 10px 12px; border-bottom: 1px solid #e2e8f0; font-size: 13px; height: 20px; background-color: #ffffff; }
+        .slot { display: flex; justify-content: space-between; align-items: center; padding: 10px 12px; border-bottom: 1px solid #e2e8f0; font-size: 13px; height: 24px; background-color: #ffffff; }
         .slot:last-child { border-bottom: none; }
+        
+        .team-info { display: flex; align-items: center; gap: 8px; }
+        .bracket-logo { width: 18px; height: 18px; object-fit: contain; }
         
         .team-name { font-weight: 500; color: #334155; }
         .score { font-family: monospace; font-weight: bold; background: #f1f5f9; padding: 2px 8px; border-radius: 4px; color: #475569; min-width: 14px; text-align: center; border: 1px solid #e2e8f0; }
+
+        /* 💡 3위 결정전 전용 내부 수직 정렬박스 */
+        .final-column { display: flex; flex-direction: column; justify-content: space-between; height: 100%; }
     </style>
 </head>
 <body>
@@ -116,88 +122,22 @@
 
         <h2>👥 참가 팀 전원 (Participants)</h2>
         <div class="teams-grid">
-            
-            <div class="team-card">
-                <div class="team-card-title">T1</div>
-                <div class="team-logo-box"><img src="32위 팀 로고/T1.png" alt="T1"></div>
-            </div>
-
-            <div class="team-card">
-                <div class="team-card-title">DRX</div>
-                <div class="team-logo-box"><img src="32위 팀 로고/DRX.png" alt="DRX"></div>
-            </div>
-
-            <div class="team-card">
-                <div class="team-card-title">GEN</div>
-                <div class="team-logo-box"><img src="32위 팀 로고/GEN.png" alt="GENG"></div>
-            </div>
-
-            <div class="team-card">
-                <div class="team-card-title">TheMongolZ</div>
-                <div class="team-logo-box"><img src="32위 팀 로고/MG.png" alt="TheMongolZ"></div>
-            </div>
-
-            <div class="team-card">
-                <div class="team-card-title">PRX</div>
-                <div class="team-logo-box"><img src="32위 팀 로고/PRX.png" alt="PRX"></div>
-            </div>
-
-            <div class="team-card">
-                <div class="team-card-title">NS</div>
-                <div class="team-logo-box"><img src="32위 팀 로고/NS.png" alt="NS"></div>
-            </div>
-
-            <div class="team-card">
-                <div class="team-card-title">PVIS</div>
-                <div class="team-logo-box"><img src="32위 팀 로고/PVIS.png" alt="PVIS"></div>
-            </div>
-
-            <div class="team-card">
-                <div class="team-card-title">MOUZ</div>
-                <div class="team-logo-box"><img src="32위 팀 로고/MOUZ.png" alt="MOUZ"></div>
-            </div>
-
-            <div class="team-card">
-                <div class="team-card-title">G2</div>
-                <div class="team-logo-box"><img src="32위 팀 로고/G2.png" alt="G2"></div>
-            </div>
-
-            <!-- 💡 [수정] VIT 카드를 NAVI 카드로 완전히 대체 완료 -->
-            <div class="team-card">
-                <div class="team-card-title">NAVI</div>
-                <div class="team-logo-box"><img src="32위 팀 로고/NAVI.png" alt="NAVI"></div>
-            </div>
-
-            <div class="team-card">
-                <div class="team-card-title">LEGACY</div>
-                <div class="team-logo-box"><img src="32위 팀 로고/LEGACY.png" alt="LEGACY"></div>
-            </div>
-
-            <div class="team-card">
-                <div class="team-card-title">NRG</div>
-                <div class="team-logo-box"><img src="32위 팀 로고/NRG.png" alt="NRG"></div>
-            </div>
-
-            <div class="team-card">
-                <div class="team-card-title">MIBR</div>
-                <div class="team-logo-box"><img src="32위 팀 로고/MIBR.png" alt="MIBR"></div>
-            </div>
-
-            <div class="team-card">
-                <div class="team-card-title">TEAMLiquid</div>
-                <div class="team-logo-box"><img src="32위 팀 로고/TEAMLiquid.png" alt="TEAMLiquid"></div>
-            </div>
-
-            <div class="team-card">
-                <div class="team-card-title">RRQ</div>
-                <div class="team-logo-box"><img src="32위 팀 로고/RRQ.png" alt="RRQ"></div>
-            </div>
-
-            <div class="team-card">
-                <div class="team-card-title">EDG</div>
-                <div class="team-logo-box"><img src="32위 팀 로고/EDG.png" alt="EDG"></div>
-            </div>
-
+            <div class="team-card"><div class="team-card-title">T1</div><div class="team-logo-box"><img src="32위 팀 로고/T1.png" alt="T1"></div></div>
+            <div class="team-card"><div class="team-card-title">DRX</div><div class="team-logo-box"><img src="32위 팀 로고/DRX.png" alt="DRX"></div></div>
+            <div class="team-card"><div class="team-card-title">GEN</div><div class="team-logo-box"><img src="32위 팀 로고/GEN.png" alt="GENG"></div></div>
+            <div class="team-card"><div class="team-card-title">TheMongolZ</div><div class="team-logo-box"><img src="32위 팀 로고/MG.png" alt="TheMongolZ"></div></div>
+            <div class="team-card"><div class="team-card-title">PRX</div><div class="team-logo-box"><img src="32위 팀 로고/PRX.png" alt="PRX"></div></div>
+            <div class="team-card"><div class="team-card-title">NS</div><div class="team-logo-box"><img src="32위 팀 로고/NS.png" alt="NS"></div></div>
+            <div class="team-card"><div class="team-card-title">PVIS</div><div class="team-logo-box"><img src="32위 팀 로고/PVIS.png" alt="PVIS"></div></div>
+            <div class="team-card"><div class="team-card-title">MOUZ</div><div class="team-logo-box"><img src="32위 팀 로고/MOUZ.png" alt="MOUZ"></div></div>
+            <div class="team-card"><div class="team-card-title">G2</div><div class="team-logo-box"><img src="32위 팀 로고/G2.png" alt="G2"></div></div>
+            <div class="team-card"><div class="team-card-title">NAVI</div><div class="team-logo-box"><img src="32위 팀 로고/NAVI.png" alt="NAVI"></div></div>
+            <div class="team-card"><div class="team-card-title">LEGACY</div><div class="team-logo-box"><img src="32위 팀 로고/LEGACY.png" alt="LEGACY"></div></div>
+            <div class="team-card"><div class="team-card-title">NRG</div><div class="team-logo-box"><img src="32위 팀 로고/NRG.png" alt="NRG"></div></div>
+            <div class="team-card"><div class="team-card-title">MIBR</div><div class="team-logo-box"><img src="32위 팀 로고/MIBR.png" alt="MIBR"></div></div>
+            <div class="team-card"><div class="team-card-title">TEAMLiquid</div><div class="team-logo-box"><img src="32위 팀 로고/TEAMLiquid.png" alt="TEAMLiquid"></div></div>
+            <div class="team-card"><div class="team-card-title">RRQ</div><div class="team-logo-box"><img src="32위 팀 로고/RRQ.png" alt="RRQ"></div></div>
+            <div class="team-card"><div class="team-card-title">EDG</div><div class="team-logo-box"><img src="32위 팀 로고/EDG.png" alt="EDG"></div></div>
         </div>
 
         <!-- 상금 및 순위 -->
@@ -221,20 +161,20 @@
                     <div class="round-title">Quarterfinals</div>
                     <div class="match-list">
                         <div class="match">
-                            <div class="slot"><span class="team-name">TBD</span><span class="score">-</span></div>
-                            <div class="slot"><span class="team-name">TBD</span><span class="score">-</span></div>
+                            <div class="slot"><div class="team-info"><img src="32위 팀 로고/DRX.png" class="bracket-logo" alt=""><span class="team-name">DRX</span></div><span class="score">-</span></div>
+                            <div class="slot"><div class="team-info"><img src="32위 팀 로고/NAVI.png" class="bracket-logo" alt=""><span class="team-name">NAVI</span></div><span class="score">-</span></div>
                         </div>
                         <div class="match">
-                            <div class="slot"><span class="team-name">TBD</span><span class="score">-</span></div>
-                            <div class="slot"><span class="team-name">TBD</span><span class="score">-</span></div>
+                            <div class="slot"><div class="team-info"><img src="32위 팀 로고/PVIS.png" class="bracket-logo" alt=""><span class="team-name">PVIS</span></div><span class="score">-</span></div>
+                            <div class="slot"><div class="team-info"><img src="32위 팀 로고/EDG.png" class="bracket-logo" alt=""><span class="team-name">EDG</span></div><span class="score">-</span></div>
                         </div>
                         <div class="match">
-                            <div class="slot"><span class="team-name">TBD</span><span class="score">-</span></div>
-                            <div class="slot"><span class="team-name">TBD</span><span class="score">-</span></div>
+                            <div class="slot"><div class="team-info"><img src="32위 팀 로고/GEN.png" class="bracket-logo" alt=""><span class="team-name">GEN</span></div><span class="score">-</span></div>
+                            <div class="slot"><div class="team-info"><img src="32위 팀 로고/G2.png" class="bracket-logo" alt=""><span class="team-name">G2</span></div><span class="score">-</span></div>
                         </div>
                         <div class="match">
-                            <div class="slot"><span class="team-name">TBD</span><span class="score">-</span></div>
-                            <div class="slot"><span class="team-name">TBD</span><span class="score">-</span></div>
+                            <div class="slot"><div class="team-info"><img src="32위 팀 로고/T1.png" class="bracket-logo" alt=""><span class="team-name">T1</span></div><span class="score">-</span></div>
+                            <div class="slot"><div class="team-info"><img src="32위 팀 로고/PRX.png" class="bracket-logo" alt=""><span class="team-name">PRX</span></div><span class="score">-</span></div>
                         </div>
                     </div>
                 </div>
@@ -254,16 +194,28 @@
                     </div>
                 </div>
 
-                <!-- Grand Final -->
+                <!-- Grand Final & 💡 [추가] 스크린샷과 동일한 구조의 Third Place Match 배치 -->
                 <div class="round">
-                    <div class="round-title">Grand Final</div>
-                    <div class="match-list">
-                        <div class="match">
-                            <div class="slot"><span class="team-name">TBD</span><span class="score">-</span></div>
-                            <div class="slot"><span class="team-name">TBD</span><span class="score">-</span></div>
+                    <div class="final-column">
+                        <!-- 결승전 그룹 -->
+                        <div>
+                            <div class="round-title">Grand Final</div>
+                            <div class="match" style="margin-top: 105px;">
+                                <div class="slot"><span class="team-name">TBD</span><span class="score">-</span></div>
+                                <div class="slot"><span class="team-name">TBD</span><span class="score">-</span></div>
+                            </div>
+                        </div>
+                        <!-- 3위 결정전 그룹 -->
+                        <div style="margin-bottom: 20px;">
+                            <div class="round-title">Third Place Match</div>
+                            <div class="match">
+                                <div class="slot"><span class="team-name">TBD</span><span class="score">-</span></div>
+                                <div class="slot"><span class="team-name">TBD</span><span class="score">-</span></div>
+                            </div>
                         </div>
                     </div>
                 </div>
+                
             </div>
         </div>
     </div>
